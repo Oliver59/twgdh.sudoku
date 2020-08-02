@@ -9,8 +9,8 @@
         width                : 720rpx;
         height               : 720rpx;
         display              : grid;
-        grid-template-rows   : repeat(3, 1fr);
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows   : repeat(9, 1fr);
+        grid-template-columns: repeat(9, 1fr);
         border               : 2rpx solid #000;
     }
 
@@ -21,35 +21,47 @@
         grid-template-columns: repeat(3, 1fr);
     }
 
-    .content .block_large .block_middle {
-        border-right : 2rpx solid #bec4d1;
-        border-bottom: 2rpx solid #bec4d1;
-        display      : grid;
+    .sudoku_block {
+        border-right         : 2rpx solid #bec4d1;
+        border-bottom        : 2rpx solid #bec4d1;
+        display              : grid;
         grid-template-rows   : 100%;
         grid-template-columns: 100%;
     }
 
-    .content .block_large .block_middle:nth-child(n+7) {
-        border-bottom-width: 0;
+    .sudoku_block:nth-child(3n) {
+        border-right: 2rpx solid #000;
     }
 
-    .content .block_large .block_middle:nth-child(3n) {
-        border-right-width: 0;
+    .sudoku_block:nth-child(3n+1) {
+        border-left: 2rpx solid #000;
     }
 
-    .content .block_large .block_middle .sudoku_number {
-        color      : #2b2c30;
-        font-size  : 48rpx;
+    .sudoku_block:nth-child(-n+9),
+    .sudoku_block:nth-child(-n+36):nth-child(n+28),
+    .sudoku_block:nth-child(-n+63):nth-child(n+55) {
+        border-top: 2rpx solid #000;
+    }
+
+    .sudoku_block:nth-child(-n+27):nth-child(n+19),
+    .sudoku_block:nth-child(-n+54):nth-child(n+46),
+    .sudoku_block:nth-child(n+73) {
+        border-bottom: 2rpx solid #000;
+    }
+
+    .sudoku_block .sudoku_number {
+        color     : #2b2c30;
+        font-size : 48rpx;
         place-self: center center;
     }
 
-    .content .block_large .block_middle .notes{
-        display: grid;
+    .content .sudoku_block .notes {
+        display              : grid;
         grid-template-rows   : repeat(3, 1fr);
         grid-template-columns: repeat(3, 1fr);
-        place-items: center center;
-        font-size: 18rpx;
-        color: #808080;
+        place-items          : center center;
+        font-size            : 18rpx;
+        color                : #808080;
     }
 
     .menu {}

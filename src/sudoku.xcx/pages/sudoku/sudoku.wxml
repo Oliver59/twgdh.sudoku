@@ -3,20 +3,16 @@
         <view class="title">
         </view>
         <view class="content">
-            <block wx:for="{{sudoku.bindItemList}}" wx:for-item="largeBlock">
-                <view class="block_large">
-                    <block wx:for="{{largeBlock}}" wx:for-item="middleBlock">
-                        <view class="block_middle">
-                            <view wx:if="{{middleBlock.value!=0}}" class="sudoku_number">
-                                {{middleBlock.value}}
-                            </view>
-                            <view wx:else class="notes">
-                                <view wx:for="{{9}}" wx:for-index="index" class="miniBlock">
-                                    {{index}}
-                                </view>
-                            </view>
+            <block wx:for="{{sudoku.bindItemList}}" wx:for-item="sudukuItem">
+                <view class="sudoku_block">
+                    <view wx:if="{{sudukuItem.value!=0}}" class="sudoku_number">
+                        {{sudukuItem.value}}
+                    </view>
+                    <view wx:else class="notes">
+                        <view wx:for="{{9}}" wx:for-index="index" class="note_block">
+                            {{index}}
                         </view>
-                    </block>
+                    </view>
                 </view>
             </block>
         </view>
