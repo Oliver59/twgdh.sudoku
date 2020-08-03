@@ -4,6 +4,7 @@ class sudoku {
     selectIndex;
     bindItemList;
     openNote;
+    historyOperateList;
 
 
     constructor(question, answer, onRefreshSudoku) {
@@ -12,10 +13,12 @@ class sudoku {
         this.onRefreshSudoku = onRefreshSudoku;
         this.selectIndex = -1;
         this.openNote = false;
+        this.historyOperateList = [];
         this.initData();
         this.initNumber();
         this.refreshList();
     }
+
     initData() {
         let _bindItemList = [];
 
@@ -46,33 +49,83 @@ class sudoku {
         this.numbers = numbers;
     }
 
+    /**
+     * 点击数字
+     * @param {*} number 
+     */
     clickNumber(number) {
-        console.log('clickNumber', number);
         if (!number.show) return;
-        console.log('clickNumber', number);
         let selectItem = this.bindItemList[this.selectIndex];
         if (selectItem.isSystem) return;
-        console.log('clickNumber', number);
+        console.log(this.historyOperateList);
         if (this.openNote) {
             //注释
             selectItem.notes.forEach(c => {
                 if (c.value === number.value) c.show = !c.show;
             });
+            this.historyOperateList.push({ type: 'addNote', index: this.selectIndex, value: number.value });
         } else {
             //填写
+            this.historyOperateList.push({ type: 'addNumber', index: this.selectIndex, value: number.value, beforeNumber: selectItem.value });
             selectItem.value = number.value;
             console.log("填写！");
         }
         this.bindItemList[this.selectIndex] = selectItem;
+        //检查是否填写错误
+        selectItem.errorClass = "";
+        if (selectItem.value != this.answer[this.selectIndex]) {
+            selectItem.errorClass = "error";
+        }
+        if (!this.openNote) {
+            // 检查是否和其它block冲突
+            this.bindItemList.forEach(item => {
+                item.errorBlockClass = "";
+                if (item.index != selectItem.index &&
+                    item.value == selectItem.value &&
+                    (item.rowIndex == selectItem.rowIndex || item.colIndex == selectItem.colIndex || item.blockIndex == selectItem.blockIndex)) {
+                    item.errorBlockClass = "errorBlock";
+                }
+            });
+        }
         this.initNumber();
         this.refreshList();
     }
 
-    setValue(index, number) {
-        this.onRefreshSudoku(index, number);
+    /**
+     * 点击擦除
+     */
+    clickErase() {
+        let selectItem = this.bindItemList[this.selectIndex];
+        if (selectItem.isSystem) return;
+        selectItem.value = '0';
+        this.bindItemList[this.selectIndex] = selectItem;
+        this.refreshList();
     }
 
-    addNote(index, number) { }
+    /**
+     * 点击笔记
+     */
+    clickNotes() {
+        this.openNote = !this.openNote;
+        this.onRefreshSudoku(this);
+    }
+
+    /**
+     * 点击撤销
+     */
+    clickUndo() {
+        var operate = this.historyOperateList.pop();
+        let selectItem = this.bindItemList[operate.index];
+        if (operate.type == 'addNote') {
+            selectItem.notes.forEach(c => {
+                if (c.value === selectItem.value) c.show = !c.show;
+            });
+        } else if (operate.type == 'addNumber') {
+            selectItem.value = operate.beforeNumber;
+        }
+        this.bindItemList[this.selectIndex] = selectItem;
+        this.onRefreshSudoku(this);
+    }
 
     setSelect(index) {
         this.selectIndex = index;

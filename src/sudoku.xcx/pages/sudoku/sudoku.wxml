@@ -4,10 +4,8 @@
         </view>
         <view class="content">
             <block wx:for="{{sudoku.bindItemList}}" wx:for-item="sudukuItem">
-                <view
-                    class="sudoku_block {{sudukuItem.sameBlockClass}} {{sudukuItem.selectedClass}} {{sudukuItem.sameNumberClass}} "
-                    bindtap="onClickBlock" data-item="{{sudukuItem}}">
-                    <view wx:if="{{sudukuItem.value!=0}}" class="sudoku_number {{sudukuItem.isSystem?'':'notSystemNumber'}}">
+                <view class="sudoku_block {{sudukuItem.sameBlockClass}} {{sudukuItem.selectedClass}} {{sudukuItem.sameNumberClass}}  {{sudukuItem.errorBlockClass}} " bindtap="onClickBlock" data-item="{{sudukuItem}}">
+                    <view wx:if="{{sudukuItem.value!=0}}" class="sudoku_number {{sudukuItem.errorClass}} {{sudukuItem.isSystem?'':'notSystemNumber'}}">
                         {{sudukuItem.value}}
                     </view>
                     <view wx:else class="notes">
@@ -21,11 +19,21 @@
             </block>
         </view>
         <view class="menu">
-
+            <view class="undo" bindtap='onClickUndo'>撤销</view>
+            <view class="erase" bindtap='onClickErase'>擦除</view>
+            <view class="notes" bindtap='onClickNotes'>笔记
+                <view wx:if="{{sudoku.openNote}}">
+                    on
+                </view>
+                <view wx:else>
+                    off
+                </view>
+            </view>
+            <view class="hint" bindtap='onClickHint'>提示</view>
         </view>
         <view class="number">
             <view wx:for="{{sudoku.numbers}}" wx:for-item="number" bindtap="onClickNumber" data-number="{{number}}">
-                <view wx:if="{{number.show}}" >
+                <view wx:if="{{number.show}}">
                     {{number.value}}
                 </view>
             </view>
