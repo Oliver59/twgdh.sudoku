@@ -1,12 +1,16 @@
-    .main {}
+    .main {
+        background-color: #fefefe;
+        width           : 720rpx;
+        margin          : 0 auto;
+        /* font-family:  'Times New Roman', serif; */
+    }
 
     .sudoku {}
 
     .title {}
 
     .content {
-        margin               : 0 auto;
-        width                : 720rpx;
+
         height               : 720rpx;
         display              : grid;
         grid-template-rows   : repeat(9, 1fr);
@@ -64,6 +68,28 @@
         color                : #808080;
     }
 
+    .sudoku_block.sameBlock {
+        background-color: #e1e5eb;
+    }
+
+    .sudoku_block.sameNumber {
+        background-color: #cccedb;
+    }
+
+    .sudoku_block.selected {
+        background-color: #c3dafa;
+    }
+    .sudoku_block .sudoku_number.notSystemNumber{
+        color: #3b59a9;
+    }
+
     .menu {}
 
-    .number {}
+    .number {
+        color                : #4f6ab1;
+        font-size            : 90rpx;
+        display              : grid;
+        grid-template-columns: repeat(9, 1fr);
+        place-content        : center;
+        place-items          : center;
+    }

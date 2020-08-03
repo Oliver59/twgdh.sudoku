@@ -4,13 +4,17 @@
         </view>
         <view class="content">
             <block wx:for="{{sudoku.bindItemList}}" wx:for-item="sudukuItem">
-                <view class="sudoku_block">
-                    <view wx:if="{{sudukuItem.value!=0}}" class="sudoku_number">
+                <view
+                    class="sudoku_block {{sudukuItem.sameBlockClass}} {{sudukuItem.selectedClass}} {{sudukuItem.sameNumberClass}} "
+                    bindtap="onClickBlock" data-item="{{sudukuItem}}">
+                    <view wx:if="{{sudukuItem.value!=0}}" class="sudoku_number {{sudukuItem.isSystem?'':'notSystemNumber'}}">
                         {{sudukuItem.value}}
                     </view>
                     <view wx:else class="notes">
-                        <view wx:for="{{9}}" wx:for-index="index" class="note_block">
-                            {{index}}
+                        <view wx:for="{{sudukuItem.notes}}" wx:for-item="note" class="note_block">
+                            <view wx:if="{{note.show}}">
+                                {{note.value}}
+                            </view>
                         </view>
                     </view>
                 </view>
@@ -20,7 +24,11 @@
 
         </view>
         <view class="number">
-
+            <view wx:for="{{sudoku.numbers}}" wx:for-item="number" bindtap="onClickNumber" data-number="{{number}}">
+                <view wx:if="{{number.show}}" >
+                    {{number.value}}
+                </view>
+            </view>
         </view>
     </view>
 </view>
