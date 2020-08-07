@@ -26,7 +26,7 @@ Page({
 
     onClickBlock(e) {
         let item = e.currentTarget.dataset.item;
-        this.data.sudoku.setSelect(item.index);
+        this.data.sudoku.clickBlock(item.index);
     },
     onClickNumber(e) {
         let number = e.currentTarget.dataset.number;
@@ -40,6 +40,9 @@ Page({
     },
     onClickUndo() {
         this.data.sudoku.clickUndo();
+    },
+    onClickHint() {
+        this.data.sudoku.clickHint();
     },
     /**
      * 生命周期函数--监听页面初次渲染完成

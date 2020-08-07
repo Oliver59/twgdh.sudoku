@@ -6,7 +6,6 @@ class sudoku {
     openNote;
     historyOperateList;
 
-
     constructor(question, answer, onRefreshSudoku) {
         this.question = question;
         this.answer = answer;
@@ -91,6 +90,33 @@ class sudoku {
         this.refreshList();
     }
 
+
+    /**
+     * 点击格子
+     * @param {点击格子索引} index 
+     */
+    clickBlock(index) {
+        this.selectIndex = index;
+        this.refreshList();
+    }
+
+    /**
+     * 点击撤销
+     */
+    clickUndo() {
+        if (this.historyOperateList.length == 0) return;
+        var operate = this.historyOperateList.pop();
+        let selectItem = this.bindItemList[operate.index];
+        if (operate.type == 'addNote') {
+            selectItem.notes.forEach(c => {
+                if (c.value === operate.value) c.show = !c.show;
+            });
+        } else if (operate.type == 'addNumber') {
+            selectItem.value = operate.beforeNumber;
+        }
+        this.refreshList();
+    }
+
     /**
      * 点击擦除
      */
@@ -107,29 +133,52 @@ class sudoku {
      */
     clickNotes() {
         this.openNote = !this.openNote;
-        this.onRefreshSudoku(this);
+        this.refreshList();
     }
 
     /**
-     * 点击撤销
+     * 点击提示
      */
-    clickUndo() {
-        var operate = this.historyOperateList.pop();
-        let selectItem = this.bindItemList[operate.index];
-        if (operate.type == 'addNote') {
-            selectItem.notes.forEach(c => {
-                if (c.value === selectItem.value) c.show = !c.show;
-            });
-        } else if (operate.type == 'addNumber') {
-            selectItem.value = operate.beforeNumber;
-        }
-        this.bindItemList[this.selectIndex] = selectItem;
-        this.onRefreshSudoku(this);
+    clickHint() {
+        this.bindItemList[this.selectIndex].value = this.answer[this.selectIndex];
+        this.refreshList();
     }
 
-    setSelect(index) {
-        this.selectIndex = index;
-        this.refreshList();
+    animation() {
+        //检查是否启用动画
+        if (this.selectIndex <= 0) return;
+        let selectedItem = this.bindItemList[this.selectIndex];
+        let sameRow = this.bindItemList.filter(c => c.rowIndex == selectedItem.rowIndex);
+        let sameCol = this.bindItemList.filter(c => c.colIndex == selectedItem.colIndex);
+        let sameBlock = this.bindItemList.filter(c => c.blockIndex == selectedItem.blockIndex);
+        let rowFinish = sameRow.sort((a, b) => a.value - b.value).map(c => c.value).join("") === "123456789";
+        let colFinish = sameCol.sort((a, b) => a.value - b.value).map(c => c.value).join("") === "123456789";
+        let blockFinish = sameBlock.sort((a, b) => a.value - b.value).map(c => c.value).join("") === "123456789";
+
+
+        console.log(rowFinish);
+        let _this = this;
+        if (rowFinish || colFinish || blockFinish) {
+            setTimeout(function() {
+                var rowIndx = sameRow.findIndex(c => c.index == this.selectIndex);
+                for (let i = 1; i < 12; i++) {
+                    let beforeIndex = rowIndx - i;
+                    let afterIndex = rowIndx + i;
+                    for (let j = 1; j < 4; j++) {
+                        if (beforeIndex >= 0 && beforeIndex < 9 && beforeIndex < rowIndx)
+                            sameRow[beforeIndex].finishAnimationClass = `finishAnimation${j}`;
+
+                        if (afterIndex >= 0 && afterIndex < 9 && afterIndex > rowIndx)
+                            sameRow[afterIndex].finishAnimationClass = `finishAnimation${j}`;
+
+                        beforeIndex++;
+                        afterIndex--;
+                    }
+                    _this.onRefreshSudoku(_this);
+                    sleep(200);
+                }
+            }, 0);
+        }
     }
 
     refreshList() {
@@ -153,6 +202,7 @@ class sudoku {
             selectedItem.selectedClass = "selected";
         }
         this.onRefreshSudoku(this);
+        this.animation();
     }
 
 }

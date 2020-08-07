@@ -107,6 +107,18 @@
         color: #fb3d3f;
     }
     
+    .sudoku_block.finishAnimation1 {
+        background-color: #c8d5e4;
+    }
+    
+    .sudoku_block.finishAnimation2 {
+        background-color: #becee1;
+    }
+    
+    .sudoku_block.finishAnimation3 {
+        background-color: #b9cbdf;
+    }
+    
     .menu {
         width: 100%;
         height: 120rpx;
