@@ -1,14 +1,14 @@
-<view class="main">
+<view wx-if="{{!sudoku.succeed}}" class="main">
     <view class="sudoku">
         <view class="title">
         </view>
         <view class="content">
             <block wx:for="{{sudoku.bindItemList}}" wx:for-item="sudukuItem">
-                <view class="sudoku_block {{sudukuItem.sameBlockClass}} {{sudukuItem.selectedClass}} {{sudukuItem.sameNumberClass}}  {{sudukuItem.errorBlockClass}} " bindtap="onClickBlock" data-item="{{sudukuItem}}">
+                <view class="sudoku_block {{sudukuItem.sameBlockClass}} {{sudukuItem.selectedClass}} {{sudukuItem.sameNumberClass}}  {{sudukuItem.errorBlockClass}} " bindtap="onClickBlock" data-item="{{sudukuItem}}" style="{{sudukuItem.style}}">
                     <view wx:if="{{sudukuItem.value!=0}}" class="sudoku_number {{sudukuItem.errorClass}} {{sudukuItem.isSystem?'':'notSystemNumber'}}">
                         {{sudukuItem.value}}
                     </view>
-                    <view wx:else class="notes">
+                    <view wx:else class="notes" style="color:rebeccapurple; font-size-adjust: inherit;">
                         <view wx:for="{{sudukuItem.notes}}" wx:for-item="note" class="note_block">
                             <view wx:if="{{note.show}}">
                                 {{note.value}}
@@ -38,5 +38,46 @@
                 </view>
             </view>
         </view>
+    </view>
+</view>
+<view wx-if="{{sudoku.succeed}}" class="win">
+    <view class="top flag">
+        <view class="flagImage"></view>
+        <view class="flagImage"></view>
+        <view class="flagImage"></view>
+    </view>
+    <view class="center">
+        <view class="good">太棒了!</view>
+        <view class="statistics">
+            <view class="row">
+                <view class='iconfont icon-nandu'></view>
+                <view class="text">
+                    <view>难度</view>
+                    <view>容易</view>
+                </view>
+            </view>
+            <view class="row">
+                <view class='iconfont icon-star'></view>
+                <view class="text">
+                    <view>得分</view>
+                    <view>7.705</view>
+                </view>
+            </view>
+            <view class="row">
+                <view class='iconfont icon-time'></view>
+                <view class="text">
+                    <view>时间</view>
+                    <view>06:55</view>
+                </view>
+            </view>
+        </view>
+        <view class="tip">你已经连续完美解决了2个谜题啦！</view>
+        <view class="allData">
+            <view class='iconfont icon-tongji'></view>
+            <view>所有数据</view>
+        </view>
+        <view class="newGame">新游戏</view>
+    </view>
+    <view class="bottom">
     </view>
 </view>

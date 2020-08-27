@@ -5,6 +5,7 @@ class sudoku {
     bindItemList;
     openNote;
     historyOperateList;
+    succeed;
 
     constructor(question, answer, onRefreshSudoku) {
         this.question = question;
@@ -12,6 +13,7 @@ class sudoku {
         this.onRefreshSudoku = onRefreshSudoku;
         this.selectIndex = -1;
         this.openNote = false;
+        this.succeed = false;
         this.historyOperateList = [];
         this.initData();
         this.initNumber();
@@ -146,39 +148,80 @@ class sudoku {
 
     animation() {
         //检查是否启用动画
+
+        for (let i = 0; i < this.bindItemList.length; i++) {
+            this.bindItemList[i].style = "";
+        }
+
+
         if (this.selectIndex <= 0) return;
         let selectedItem = this.bindItemList[this.selectIndex];
-        let sameRow = this.bindItemList.filter(c => c.rowIndex == selectedItem.rowIndex);
-        let sameCol = this.bindItemList.filter(c => c.colIndex == selectedItem.colIndex);
-        let sameBlock = this.bindItemList.filter(c => c.blockIndex == selectedItem.blockIndex);
-        let rowFinish = sameRow.sort((a, b) => a.value - b.value).map(c => c.value).join("") === "123456789";
-        let colFinish = sameCol.sort((a, b) => a.value - b.value).map(c => c.value).join("") === "123456789";
-        let blockFinish = sameBlock.sort((a, b) => a.value - b.value).map(c => c.value).join("") === "123456789";
 
 
-        console.log(rowFinish);
         let _this = this;
-        if (rowFinish || colFinish || blockFinish) {
-            setTimeout(function() {
-                var rowIndx = sameRow.findIndex(c => c.index == this.selectIndex);
-                for (let i = 1; i < 12; i++) {
-                    let beforeIndex = rowIndx - i;
-                    let afterIndex = rowIndx + i;
-                    for (let j = 1; j < 4; j++) {
-                        if (beforeIndex >= 0 && beforeIndex < 9 && beforeIndex < rowIndx)
-                            sameRow[beforeIndex].finishAnimationClass = `finishAnimation${j}`;
 
-                        if (afterIndex >= 0 && afterIndex < 9 && afterIndex > rowIndx)
-                            sameRow[afterIndex].finishAnimationClass = `finishAnimation${j}`;
-
-                        beforeIndex++;
-                        afterIndex--;
-                    }
-                    _this.onRefreshSudoku(_this);
-                    sleep(200);
-                }
-            }, 0);
+        let sameRow = this.bindItemList.filter(c => c.rowIndex == selectedItem.rowIndex);
+        let rowFinish = sameRow.sort((a, b) => a.value - b.value).map(c => c.value).join("") === "123456789";
+        if (rowFinish) {
+            sameRow.sort((a, b) => a.index - b.index);
+            var rowIndx = sameRow.findIndex(c => c.index == this.selectIndex);
+            for (let i = 0; i < sameRow.length; i++) {
+                if (rowIndx == i) continue;
+                let delayTime = Math.abs(rowIndx - i) / 10;
+                let styleContent = `animation-name: finishAnimation; animation-duration:1s; animation-timing-function: linear; animation-delay: ${delayTime}s;`;
+                sameRow[i].style = styleContent;
+            }
         }
+
+
+        let sameCol = this.bindItemList.filter(c => c.colIndex == selectedItem.colIndex);
+        let colFinish = sameCol.sort((a, b) => a.value - b.value).map(c => c.value).join("") === "123456789";
+        sameCol.sort((a, b) => a.index - b.index);
+        if (colFinish) {
+            sameCol.sort((a, b) => a.index - b.index);
+            var colIndx = sameCol.findIndex(c => c.index == this.selectIndex);
+            for (let i = 0; i < sameCol.length; i++) {
+                if (colIndx == i) continue;
+                let delayTime = Math.abs(colIndx - i) / 10;
+                let styleContent = `animation-name: finishAnimation; animation-duration:1s; animation-timing-function: linear; animation-delay: ${delayTime}s;`;
+                sameCol[i].style = styleContent;
+            }
+        }
+
+        let sameBlock = this.bindItemList.filter(c => c.blockIndex == selectedItem.blockIndex);
+        let blockFinish = sameBlock.sort((a, b) => a.value - b.value).map(c => c.value).join("") === "123456789";
+        if (blockFinish) {
+            sameBlock.sort((a, b) => a.index - b.index);
+            var blockIndx = sameBlock.findIndex(c => c.index == this.selectIndex);
+            for (let i = 0; i < sameBlock.length; i++) {
+                if (blockIndx == i) continue;
+                let delayTime = Math.abs(blockIndx - i) / 10;
+                let styleContent = `animation-name: finishAnimation; animation-duration:1s; animation-timing-function: linear; animation-delay: ${delayTime}s;`;
+                sameBlock[i].style = styleContent;
+            }
+        }
+
+        if (this.bindItemList.map(c => c.value).join("") === this.answer) {
+            for (let i = 0; i < this.bindItemList.length; i++) {
+                if (this.selectIndex == i) continue;
+                let item = this.bindItemList[i];
+                let delayTime = Math.abs(selectedItem.rowIndex - item.rowIndex) / 10;
+                let delayTime2 = Math.abs(selectedItem.colIndex - item.colIndex) / 10;
+                if (delayTime2 > delayTime) {
+                    delayTime = delayTime2;
+                }
+                let styleContent = `animation-name: finishAnimation; animation-duration:1s; animation-timing-function: linear; animation-delay: ${delayTime}s;`;
+                item.style = styleContent;
+                item.sameBlockClass = "";
+                item.sameNumberClass = "";
+                item.selectedClass = "";
+            }
+            setTimeout(function() {
+                _this.succeed = true;
+                _this.onRefreshSudoku(_this);
+            }, 1000);
+        }
+        this.onRefreshSudoku(_this);
     }
 
     refreshList() {
