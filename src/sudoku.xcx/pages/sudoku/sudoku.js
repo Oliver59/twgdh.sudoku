@@ -16,7 +16,7 @@ Page({
     onLoad: function(options) {
         let q = "134692785967845132825137964381954276452706319679213458248571693513469827796328541";
         let a = "134692785967845132825137964381954276452786319679213458248571693513469827796328541";
-        new sudokuClass(q, a, this.onRefreshSudoku);
+        new sudokuClass(q, a, 1, this.onRefreshSudoku);
     },
 
 
@@ -43,6 +43,9 @@ Page({
     },
     onClickHint() {
         this.data.sudoku.clickHint();
+    },
+    onClickClock() {
+        this.data.sudoku.clickClock();
     },
     /**
      * 生命周期函数--监听页面初次渲染完成

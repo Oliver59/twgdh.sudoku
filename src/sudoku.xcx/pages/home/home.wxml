@@ -1,0 +1,18 @@
+<view class="main">
+    <view class="top"></view>
+    <view class="center">
+        <view>
+            <view class="history">历史记录</view>
+            <view class="continueGame">
+                <view class="text">继续游戏</view>
+                <view class='iconfont icon-time1'>
+                    00:07 - 容易
+                </view>
+            </view>
+            <view class="newGame">新游戏</view>
+        </view>
+    </view>
+    <view class="bottom">
+        <view class="showCode">查看源码</view>
+    </view>
+</view>

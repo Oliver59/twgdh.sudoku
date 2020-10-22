@@ -1,26 +1,68 @@
 class sudoku {
 
+    levelStr;
     onRefreshSudoku;
     selectIndex;
     bindItemList;
     openNote;
     historyOperateList;
     succeed;
+    seconds;
+    isStart;
+    clockText;
 
-    constructor(question, answer, onRefreshSudoku) {
+    constructor(question, answer, level, onRefreshSudoku) {
         this.question = question;
         this.answer = answer;
+        this.level = level;
         this.onRefreshSudoku = onRefreshSudoku;
         this.selectIndex = -1;
+        this.seconds = 0;
+        this.clockText = "00:00";
+        this.isStart = true;
         this.openNote = false;
         this.succeed = false;
         this.historyOperateList = [];
         this.initData();
         this.initNumber();
         this.refreshList();
+        this.initColck();
+    }
+
+
+    initColck() {
+        let _this = this;
+        setInterval(function() {
+            if (_this.isStart && _this.succeed == false) {
+                _this.seconds++;
+                let seconds = _this.seconds;
+                let m = parseInt(seconds / 60);
+                let s = seconds % 60;
+                m = m > 9 ? m : '0' + m;
+                s = s > 9 ? s : '0' + s;
+                _this.clockText = `${m}:${s}`;
+                _this.onRefreshSudoku(_this);
+            }
+        }, 1000);
     }
 
     initData() {
+
+        switch (this.level) {
+            case 1:
+                this.levelStr = '容易';
+                break;
+            case 2:
+                this.levelStr = '中等';
+                break;
+            case 3:
+                this.levelStr = '困难';
+                break;
+            case 4:
+                this.levelStr = '专家';
+                break;
+        }
+
         let _bindItemList = [];
 
         let _question = this.question;
@@ -55,6 +97,7 @@ class sudoku {
      * @param {*} number 
      */
     clickNumber(number) {
+        if (this.selectIndex == -1) return;
         if (!number.show) return;
         let selectItem = this.bindItemList[this.selectIndex];
         if (selectItem.isSystem) return;
@@ -123,6 +166,7 @@ class sudoku {
      * 点击擦除
      */
     clickErase() {
+        if (this.selectIndex == -1) return;
         let selectItem = this.bindItemList[this.selectIndex];
         if (selectItem.isSystem) return;
         selectItem.value = '0';
@@ -142,8 +186,18 @@ class sudoku {
      * 点击提示
      */
     clickHint() {
+        if (this.selectIndex == -1) return;
+        if (this.bindItemList[this.selectIndex].value != 0) return;
         this.bindItemList[this.selectIndex].value = this.answer[this.selectIndex];
         this.refreshList();
+    }
+
+    /**
+     * 切换启动暂停
+     */
+    clickClock() {
+        this.isStart = !this.isStart;
+        this.onRefreshSudoku(this);
     }
 
     animation() {

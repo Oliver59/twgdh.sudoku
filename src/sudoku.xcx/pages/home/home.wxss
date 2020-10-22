@@ -1,0 +1,54 @@
+.main {
+  background-color: #f9fafb;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+.main .top {
+  height: 30vh;
+}
+.main .center {
+  font-weight: bold;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column-reverse;
+}
+.main .center > view > view {
+  height: 100rpx;
+  margin: 20rpx 80rpx;
+  border-radius: 80rpx;
+  text-align: center;
+  box-shadow: 0 0 20rpx #d5deec;
+  color: #fdfdfe;
+  font-size: 36rpx;
+}
+.main .center > view .history {
+  background-image: linear-gradient(to bottom right, #fae34d, #f09d39);
+  line-height: 100rpx;
+}
+.main .center > view .continueGame {
+  background-image: linear-gradient(to bottom right, #4884e5, #608dd6);
+}
+.main .center > view .continueGame .text {
+  font-size: 32rpx;
+  line-height: 50rpx;
+  height: 50rpx;
+}
+.main .center > view .continueGame .iconfont {
+  font-size: 28rpx;
+  font-weight: lighter;
+  color: #a0c1f1;
+}
+.main .center > view .newGame {
+  background-color: #fefefe;
+  color: #5b8edb;
+  line-height: 100rpx;
+}
+.main .bottom .showCode {
+  height: 200rpx;
+  line-height: 200rpx;
+  text-align: center;
+  color: #4773f6;
+  font-size: 30rpx;
+  font-weight: bold;
+}

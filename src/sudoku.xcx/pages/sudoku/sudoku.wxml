@@ -1,6 +1,12 @@
 <view wx-if="{{!sudoku.succeed}}" class="main">
     <view class="sudoku">
         <view class="title">
+            <view>{{sudoku.levelStr}}</view>
+            <view class="clock">
+                <view wx:if="{{sudoku.isStart}}" class='iconfont icon-zanting' bindtap='onClickClock'></view>
+                <view wx:else class='iconfont icon-qiyong' bindtap='onClickClock'></view>
+                <view>{{sudoku.clockText}}</view>
+            </view>
         </view>
         <view class="content">
             <block wx:for="{{sudoku.bindItemList}}" wx:for-item="sudukuItem">
@@ -19,17 +25,29 @@
             </block>
         </view>
         <view class="menu">
-            <view class="undo" bindtap='onClickUndo'>撤销</view>
-            <view class="erase" bindtap='onClickErase'>擦除</view>
-            <view class="notes" bindtap='onClickNotes'>笔记
-                <view wx:if="{{sudoku.openNote}}">
-                    on
-                </view>
-                <view wx:else>
-                    off
-                </view>
+            <view class="undo" bindtap='onClickUndo'>
+                <view class='iconfont icon-chexiao'></view>
+                <view class="lable">撤销</view>
             </view>
-            <view class="hint" bindtap='onClickHint'>提示</view>
+            <view class="erase" bindtap='onClickErase'>
+                <view class='iconfont icon-cachu'></view>
+                <view class="lable">擦除</view>
+            </view>
+            <view class="notes" bindtap='onClickNotes'>
+                <view class='iconfont icon-jilu'>
+                    <view class="tip" wx:if="{{sudoku.openNote}}">
+                        On
+                    </view>
+                    <view class="tip" wx:else>
+                        Off
+                    </view>
+                </view>
+                <view class="lable">笔记</view>
+            </view>
+            <view class="hint" bindtap='onClickHint'>
+                <view class='iconfont icon-tishi'></view>
+                <view class="lable">提示</view>
+            </view>
         </view>
         <view class="number">
             <view wx:for="{{sudoku.numbers}}" wx:for-item="number" bindtap="onClickNumber" data-number="{{number}}">
@@ -53,21 +71,21 @@
                 <view class='iconfont icon-nandu'></view>
                 <view class="text">
                     <view>难度</view>
-                    <view>容易</view>
+                    <view>{{sudoku.levelStr}}</view>
                 </view>
             </view>
-            <view class="row">
+            <!-- <view class="row">
                 <view class='iconfont icon-star'></view>
                 <view class="text">
                     <view>得分</view>
                     <view>7.705</view>
                 </view>
-            </view>
+            </view> -->
             <view class="row">
                 <view class='iconfont icon-time'></view>
                 <view class="text">
                     <view>时间</view>
-                    <view>06:55</view>
+                    <view>{{sudoku.clockText}}</view>
                 </view>
             </view>
         </view>

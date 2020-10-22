@@ -1,14 +1,15 @@
 {
-  "pages": [
-    "pages/index/index",
-    "pages/sudoku/sudoku"
-  ],
-  "window": {
-    "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "Weixin",
-    "navigationBarTextStyle": "black"
-  },
-  "style": "v2",
-  "sitemapLocation": "sitemap.json"
+    "pages": [
+        "pages/home/home",
+        "pages/sudoku/sudoku",
+        "pages/history/history"
+    ],
+    "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#fff",
+        "navigationBarTitleText": "Weixin",
+        "navigationBarTextStyle": "black"
+    },
+    "style": "v2",
+    "sitemapLocation": "sitemap.json"
 }
