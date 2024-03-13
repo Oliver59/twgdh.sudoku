@@ -1,2 +1,14 @@
-<!--pages/history/history.wxml-->
-<text>pages/history/history.wxml</text>
+<privacyPopup></privacyPopup>
+<view class="main">
+    <view class="top"></view>
+
+    <view class="center">
+      <view class="card" wx:for="{{list}}" wx:for-item="item">
+        <view>{{item.start_time}}</view>
+        <view>{{item.sudo_level}}</view>
+        <view>{{item.take_time}}</view>
+      </view>
+    </view>
+    <view class="bottom">
+    </view>
+</view>

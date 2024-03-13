@@ -1,1 +1,8 @@
-/* pages/history/history.wxss */
+.card {
+  margin: 20rpx;
+  padding: 20rpx;
+  background: #f7971e;
+  background: linear-gradient(to right, #f7971e, #ffd200);
+  border-radius: 20rpx;
+  color: #fff;
+}

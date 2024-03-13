@@ -1,3 +1,4 @@
+<privacyPopup></privacyPopup>
 <view wx-if="{{!sudoku.succeed}}" class="main">
     <view class="sudoku">
         <view class="title">

@@ -11,5 +11,6 @@
         "navigationBarTextStyle": "black"
     },
     "style": "v2",
-    "sitemapLocation": "sitemap.json"
+    "__usePrivacyCheck__": true,
+"sitemapLocation": "sitemap.json"
 }
